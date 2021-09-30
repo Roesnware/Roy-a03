@@ -42,7 +42,55 @@ public class Solution24{
      * if they are anagrams return true otherwise
      * expected to return false
      */
-    public static void main(String[] args) {
+    // constant scanner
+    private static final Scanner input = new Scanner(System.in);
 
+    // input
+    private String inputMethod(String prompt){
+        System.out.println(prompt);
+        return input.nextLine();
     }
+
+    // 2 forms of output
+    private void outputMethod(String string1, String string2){
+        System.out.println(string1 + " and " + string2 + " are not anagrams");
+    }
+
+    private void outputMethod2(String string1, String string2){
+        System.out.println(string1 + " and " + string2 + " are anagrams");
+    }
+
+    // need junit test
+    public boolean isAnagram(String string1, String string2) {
+        String s1 = string1.replaceAll("\\s", "");
+        String s2 = string2.replaceAll("\\s", "");
+        boolean status;
+        if (s1.length() != s2.length()) {
+            status = false;
+        }else {
+            char[] Str1 = s1.toLowerCase().toCharArray();
+            char[] Str2 = s2.toLowerCase().toCharArray();
+            Arrays.sort(Str1);
+            Arrays.sort(Str2);
+            status = Arrays.equals(Str1, Str2);
+        }
+        return status;
+    }
+
+    // main
+    public static void main(String[] args) {
+        Solution24 sol = new Solution24();
+
+        System.out.println("Enter two strings and I'll tell you if they are anagrams: ");
+
+        String string1 = sol.inputMethod("Enter the first string: ");
+        String string2 = sol.inputMethod("Enter the second string: ");
+
+        if(sol.isAnagram(string1, string2)){
+            sol.outputMethod2(string1, string2);
+        }else{
+            sol.outputMethod(string1, string2);
+        }
+    }
+
 }
