@@ -53,29 +53,103 @@ public class Solution25 {
     private static final Scanner input = new Scanner(System.in);
 
     // input
-    private String inputMethod(){}
+    private String inputMethod(){
+        System.out.println("What is your password: ");
+        return input.nextLine();
+    }
 
     // 1 form of output
-    private void outputMethod(String password, String strength){}
-
+    private void outputMethod(String password, String strength){
+        System.out.printf("The password %s is a %s password.", password, strength);
+    }
     // method condition for dig
-    public boolean checkDigits(String password, int passLen) {}
-
+    public boolean checkDigits(String password, int passLen) {
+        int i;
+        if(passLen < 8){
+            for(i = 0; i < passLen; i++){
+                return Character.isDigit(password.charAt(i));
+            }
+        }
+        return false;
+    }
     // method condition for letters
-    public boolean checkLetters(String password, int passLen){}
-
+    public boolean checkLetters(String password, int passLen){
+        int i;
+        if(passLen < 8){
+            for(i = 0; i < passLen; i++){
+                return Character.isLetter(password.charAt(i));
+            }
+        }
+        return false;
+    }
     // method condition for num and letters
-    public boolean checkDigLet(String password, int passLen){}
+    public boolean checkDigLet(String password, int passLen){
+        if(passLen >= 8){
+            Pattern letters = Pattern.compile("[a-zA-z]");
+            Pattern digits = Pattern.compile("[0-9]");
+            Pattern specials = Pattern.compile("[^a-zA-Z0-9]");
 
+            Matcher hasLetter = letters.matcher(password);
+            Matcher hasDigit = digits.matcher(password);
+            Matcher hasSpecial = specials.matcher(password);
+
+            return hasLetter.find() && hasDigit.find() && !hasSpecial.find();
+        }
+        return false;
+    }
     // method condition for special char
-    public boolean checkAll(String password, int passLen){}
+    public boolean checkAll(String password, int passLen){
+        if(passLen >= 8){
+            Pattern specials = Pattern.compile("[^a-zA-Z0-9]");
+            Pattern letters = Pattern.compile("[a-zA-z]");
+            Pattern digits = Pattern.compile("[0-9]");
 
+            Matcher hasLetter = letters.matcher(password);
+            Matcher hasDigit = digits.matcher(password);
+            Matcher hasSpecial = specials.matcher(password);
+
+            return hasSpecial.find() && hasDigit.find() && hasLetter.find();
+        }
+        return false;
+    }
     // for strength output
-    public int passwordValidator(String password){}
+    public int passwordValidator(String password){
+        int val = 0;
 
+        Solution25 sol = new Solution25();
+
+        if(sol.checkDigits(password, password.length())){
+            val = 1;
+        } else if(sol.checkLetters(password, password.length())){
+            val = 2;
+        } else if(sol.checkDigLet(password, password.length())){
+            val = 3;
+        } else if(sol.checkAll(password, password.length())){
+            val = 4;
+        }
+        return val;
+    }
     // for strength output
-    public String getStrength(String password){}
-
+    public String getStrength(String password){
+        Solution25 sol = new Solution25();
+        String strength = null;
+        if(sol.passwordValidator(password) == 1){
+            strength = "very weak";
+        }else if(sol.passwordValidator(password) == 2){
+            strength = "weak";
+        }else if(sol.passwordValidator(password) == 3){
+            strength = "strong";
+        }else if(sol.passwordValidator(password) == 4){
+            strength = "very strong";
+        }
+        return strength;
+    }
     // main
-    public static void main(String[] args) {}
+    public static void main(String[] args) {
+        Solution25 sol = new Solution25();
+
+        String password = sol.inputMethod();
+
+        sol.outputMethod(password,sol.getStrength(password));
+    }
 }
