@@ -29,7 +29,33 @@ public class Solution26 {
          * expected = 70
          * if expected = ans, should be false
      */
+    private final Scanner input = new Scanner(System.in);
+
+    public void outputMethod1(int months){
+        System.out.println("It will take you " +months+ " months to pay off this card. ");
+    }
+
+    public double inputMethod(String prompt){
+        System.out.println(prompt);
+        return input.nextDouble();
+    }
+
+    public int getMonths(double balance, double APRYearly, double paymentMonthly){
+        //n = -(1/30) * log(1 + b/p * (1 - (1 + i)^30)) / log(1 + i)
+        APRYearly = APRYearly / 365.0;
+        return (int)(-(1.0/30.0) * Math.log(1.0 + balance/paymentMonthly * (1.0 - Math.pow(1 + APRYearly, 30.0))) / Math.log(1.0 + APRYearly));
+    }
+
     public static void main(String[] args) {
-        
+
+        Solution26 sol = new Solution26();
+
+        double balance = sol.inputMethod("What is your balance? ");
+        double APR = sol.inputMethod("What is the APR on the card (as a percent)? ");
+        double payment = sol.inputMethod("What is the monthly payment you can make? ");
+
+        APR = APR/100;
+        int numMonths = sol.getMonths(balance, APR, payment);
+        sol.outputMethod1(numMonths);
     }
 }
