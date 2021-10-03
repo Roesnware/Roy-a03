@@ -30,13 +30,29 @@ public class Solution28 {
 
     // input
     private int inputMethod(){
+        System.out.println("Enter the value: ");
+        return input.nextInt();
     }
 
     // add sum
     public int getSum(int num, int sum){
+        sum += num;
+        return sum;
     }
 
     // main
     public static void main(String[] args) {
+
+        Solution28 sol = new Solution28();
+
+        int sum = 0;
+        int num;
+
+        for(int i = 0; i < 5; i ++){
+            num = sol.inputMethod();
+            sum = sol.getSum(num, sum);
+        }
+
+        System.out.printf("The total is %d ",sum);
     }
 }
