@@ -42,8 +42,18 @@ public class Solution26 {
 
     public int getMonths(double balance, double APRYearly, double paymentMonthly){
         //n = -(1/30) * log(1 + b/p * (1 - (1 + i)^30)) / log(1 + i)
-        APRYearly = APRYearly / 365.0;
-        return (int)(-(1.0/30.0) * Math.log(1.0 + balance/paymentMonthly * (1.0 - Math.pow(1 + APRYearly, 30.0))) / Math.log(1.0 + APRYearly));
+        APRYearly = (APRYearly / 365.0);
+        double v = balance/paymentMonthly;
+        double x = (1.0 + v);
+        double t = (1.0 + APRYearly);
+        double y = Math.pow((t), 30.0);
+        double w = (1.0 - y);
+        double z = x*w;
+        double n = Math.log(z);
+        double r = Math.log(t);
+        double s = n/r;
+        double f = (-1.0/30.0);
+        return (int) (f * s);
     }
 
     public static void main(String[] args) {
