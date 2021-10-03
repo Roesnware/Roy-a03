@@ -62,29 +62,89 @@ public class Solution27{
 
     // input
     private String inputMethod(String prompt){
+        System.out.println(prompt);
+        return input.nextLine();
     }
 
     // check conditions
     private void checkInput(String firstName, String lastName, String zipCode, String employeeID){
+        Solution27 sol = new Solution27();
+
+        boolean first = sol.validateFirstName(firstName);
+        boolean last = sol.validateLastName(lastName);
+        boolean id = sol.validateEmployeeID(employeeID);
+        boolean zip = sol.validateZipCode(zipCode);
+        if (first && last && zip && id) {
+            data = "There were no errors found.";
+        }
+        System.out.println(data);
     }
 
     // for first name conditions
     public boolean validateFirstName(String firstName){
+        boolean status = true;
+
+        if (firstName.length() < 2) {
+            data = data + "The first name must be at least 2 characters long.\n";
+            status = false;
+        }
+        if (firstName.length() == 0) {
+            data = data + "The first name must be filled in.\n";
+            status = false;
+        }
+        return status;
     }
 
     // for last name conditions
     public boolean validateLastName(String lastName){
+        boolean status = true;
+
+        if (lastName.length() < 2) {
+            data = data + "The last name must be at least 2 characters long.\n";
+            status = false;
+        }
+        if (lastName.length() == 0) {
+            System.out.println("The last name must be filled in.");
+            status = false;
+        }
+        return status;
     }
 
     // for zip code conditions
     public boolean validateZipCode(String zipCode){
+        boolean status = true;
+        try {
+            int number = Integer.parseInt(zipCode);
+            if (zipCode.length() != 5) {
+                data = data + "The zipcode must be a 5 digit number.\n";
+                status = false;
+            }
+        } catch (Exception e) {
+            data = data + "The zipcode must be a 5 digit number.\n";
+            status = false;
+        }
+        return status;
     }
 
     // for employee id conditions
     public boolean validateEmployeeID(String employeeID){
+        String pattern = "[a-zA-Z]{2}[-]{1}[0-9]{4}";
+        if (!Pattern.matches(pattern, employeeID)) {
+            data = data + "The employee ID must be in the format of AA-1234.\n";
+            return false;
+        }
+        return true;
     }
 
     public static void main(String[] args) {
 
+        Solution27 sol = new Solution27();
+
+        String firstName = sol.inputMethod("Enter the first name: ");
+        String lastName = sol.inputMethod("Enter the last name: ");
+        String zipCode = sol.inputMethod("Enter the Zip code: ");
+        String employeeID = sol.inputMethod("Enter the employee ID: ");
+
+        sol.checkInput(firstName, lastName, zipCode, employeeID);
     }
 }
